@@ -59,3 +59,70 @@ def lint(ctx):
         print("=== OK ===")
     else:
         print("=== FAIL ===")
+
+
+SOLUTION_TEMPLATE = """
+from common import read_input_txt
+
+
+def part1(input_txt: str) -> None:
+    pass
+
+
+def part2(input_txt: str) -> None:
+    pass
+
+
+def main():
+    input_txt = read_input_txt(__file__)
+
+    part1_answer = part1(input_txt)
+    print("Part 1:", part1_answer)
+
+    part2_answer = part2(input_txt)
+    print("Part 2:", part2_answer)
+""".strip()
+
+
+SOLUTION_TEST_TEMPLATE = """
+from .solution import part1, part2
+
+
+def test_part1():
+    input_txt = ""
+    assert part1(input_txt) is None
+
+
+def test_part2() -> None:
+    input_txt = ""
+    assert part2(input_txt) is None
+""".strip()
+
+
+@task
+def add(ctx, day):
+    # type: (Context, str) -> None
+    """
+    Create files for a new day.
+    """
+    if len(day) == 1:
+        day = "0" + day
+
+    ctx.run(f"mkdir -p day{day}")
+
+    with open(f"day{day}/__init__.py", "w") as f:
+        pass
+
+    with open(f"day{day}/solution.py", "w") as f:
+        f.write(SOLUTION_TEMPLATE)
+
+    with open(f"day{day}/solution_test.py", "w") as f:
+        f.write(SOLUTION_TEST_TEMPLATE)
+
+    with open(f"day{day}/input.txt", "w") as f:
+        pass
+
+    print("Created new scripts, running lint...")
+    print()
+
+    lint(ctx)
