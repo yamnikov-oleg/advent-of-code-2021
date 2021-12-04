@@ -1,3 +1,4 @@
+from importlib import import_module
 from typing import Optional
 
 from invoke import Context, task
@@ -16,7 +17,8 @@ def run(ctx, day):
     if len(day) == 1:
         day = "0" + day
 
-    ctx.run(f"python day{day}/solution.py")
+    day_module = import_module(f"day{day}.solution")
+    day_module.main()
 
 
 @task

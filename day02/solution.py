@@ -1,9 +1,8 @@
 import dataclasses
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
+from common import read_input_txt
 
 
 class Dir(Enum):
@@ -83,14 +82,10 @@ def part2(input_txt: str) -> Position:
 
 
 def main():
-    input_txt = (BASE_DIR / "input.txt").read_text()
+    input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)
     print("Part1:", part1_answer)
 
     part2_answer = part2(input_txt)
     print("Part2:", part2_answer)
-
-
-if __name__ == "__main__":
-    main()

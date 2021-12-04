@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import List, Tuple, Type
 
-BASE_DIR = Path(__file__).resolve().parent
+from common import read_input_txt
 
 
 class BitString:
@@ -230,14 +229,10 @@ def part2(input_txt: str) -> int:
 
 
 def main():
-    input_txt = (BASE_DIR / "input.txt").read_text()
+    input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)
     print("Part1:", part1_answer)
 
     part2_answer = part2(input_txt)
     print("Part2:", part2_answer)
-
-
-if __name__ == "__main__":
-    main()

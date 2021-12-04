@@ -1,7 +1,6 @@
-from pathlib import Path
 from typing import List
 
-BASE_DIR = Path(__file__).resolve().parent
+from common import read_input_txt
 
 
 def window(lst, n):
@@ -35,7 +34,7 @@ def part2(depths: List[int]) -> int:
 
 
 def main():
-    input_txt = (BASE_DIR / "input.txt").read_text()
+    input_txt = read_input_txt(__file__)
     input_lines = input_txt.splitlines()
     depths = [int(line) for line in input_lines]
 
@@ -44,7 +43,3 @@ def main():
 
     part2_answer = part2(depths)
     print("Part2:", part2_answer)
-
-
-if __name__ == "__main__":
-    main()
