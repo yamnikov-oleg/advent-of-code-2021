@@ -8,12 +8,15 @@ Install pipenv.
 
 ```
 pipenv shell
-python day01/day01.py
+inv run 1
+inv run 2
 ```
 
 ## Testing
 
 ```
 pipenv shell
-pytest
+inv test
+inv test --day 3
+inv test -d 3
 ```

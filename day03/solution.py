@@ -38,7 +38,7 @@ class BitString:
         if len(pre_bits) < index:
             pre_bits += "0" * (index - len(pre_bits))
 
-        post_bits = self.bits[index + 1:]
+        post_bits = self.bits[index + 1 :]
 
         new_bit = "1" if bit else "0"
 
@@ -155,12 +155,15 @@ class O2GenRatingCriteria:
     """
     O2 generator rating criteria.
     """
+
     def __init__(self, bit_ix: int, keep_bit: bool) -> None:
         self.bit_ix = bit_ix
         self.keep_bit = keep_bit
 
     @classmethod
-    def prepare(cls, bit_strings: List[BitString], bit_ix: int) -> "O2GenRatingCriteria":
+    def prepare(
+        cls, bit_strings: List[BitString], bit_ix: int
+    ) -> "O2GenRatingCriteria":
         count_ones, count_zeros = get_bit_stats(bit_strings, bit_ix)
         if count_ones > count_zeros:
             return cls(bit_ix=bit_ix, keep_bit=True)
@@ -178,12 +181,15 @@ class CO2ScrubRatingCriteria:
     """
     CO2 scrubber rating criteria.
     """
+
     def __init__(self, bit_ix: int, keep_bit: bool) -> None:
         self.bit_ix = bit_ix
         self.keep_bit = keep_bit
 
     @classmethod
-    def prepare(cls, bit_strings: List[BitString], bit_ix: int) -> "CO2ScrubRatingCriteria":
+    def prepare(
+        cls, bit_strings: List[BitString], bit_ix: int
+    ) -> "CO2ScrubRatingCriteria":
         count_ones, count_zeros = get_bit_stats(bit_strings, bit_ix)
         if count_ones > count_zeros:
             return cls(bit_ix=bit_ix, keep_bit=False)
@@ -196,7 +202,9 @@ class CO2ScrubRatingCriteria:
         return bit_string[self.bit_ix] == self.keep_bit
 
 
-def extract_rating(bit_strings: List[BitString], criteria_cls: Type[RatingCriteria]) -> int:
+def extract_rating(
+    bit_strings: List[BitString], criteria_cls: Type[RatingCriteria]
+) -> int:
     """
     :returns: The rating value given its criteria class.
     """

@@ -4,9 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+invoke = "*"
 
 [dev-packages]
 pytest = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true
