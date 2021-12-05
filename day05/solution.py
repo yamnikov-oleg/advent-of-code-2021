@@ -75,7 +75,7 @@ def parse_vent_line(line: str) -> VentLine:
 
 
 def count_multiline_points(vent_lines: list[VentLine]) -> int:
-    covered_points = defaultdict(int)
+    covered_points: defaultdict[Point, int] = defaultdict(int)
     for vent_line in vent_lines:
         for point in vent_line.points:
             covered_points[point] += 1
@@ -99,7 +99,7 @@ def part2(input_txt: str) -> int:
     return count_multiline_points(vent_lines)
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)

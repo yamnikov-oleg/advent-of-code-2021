@@ -1,10 +1,10 @@
-from typing import Protocol
+from typing import Iterator, Optional, Protocol
 
 from common import read_input_txt
 
 
 class BitString:
-    def __init__(self, bits: str = None, length: int = None) -> None:
+    def __init__(self, bits: Optional[str] = None, length: Optional[int] = None) -> None:
         """
         :param bits: E.g. "001101"
         :param length: Given length 5 produces "00000"
@@ -49,7 +49,7 @@ class BitString:
         """
         return len(self.bits)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[bool]:
         """
         E.g.::
             for bit in BitString("01001"):
@@ -217,7 +217,7 @@ def part2(input_txt: str) -> int:
     return o2_rating * co2_rating
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)

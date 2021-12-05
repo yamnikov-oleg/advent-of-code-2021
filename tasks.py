@@ -1,7 +1,13 @@
 from importlib import import_module
-from typing import Optional
+from typing import Optional, Protocol, runtime_checkable
 
 from invoke import Context, task
+
+
+@runtime_checkable
+class SolutionModule(Protocol):
+    def main(self) -> None:
+        ...
 
 
 @task
@@ -18,7 +24,10 @@ def run(ctx, day):
         day = "0" + day
 
     day_module = import_module(f"day{day}.solution")
-    day_module.main()
+    if isinstance(day_module, SolutionModule):
+        day_module.main()
+    else:
+        raise RuntimeError("This day's solution cannot be run")
 
 
 @task
@@ -47,14 +56,25 @@ def lint(ctx):
     """
     Make sure everything is nice and smoothy.
     """
+
     print("=== BLACK ===")
     ctx.run("black .", pty=True)
+    print()
 
     print("=== ISORT ===")
     ctx.run("isort .", pty=True)
+    print()
 
     print("=== FLAKE8 ===")
-    r = ctx.run("flake8 .", pty=True, warn=True)
+    r = ctx.run("flake8 *.py **/*.py **/*.pyi", pty=True, warn=True)
+    if r.ok:
+        print("=== OK ===")
+    else:
+        print("=== FAIL ===")
+    print()
+
+    print("=== MYPY ===")
+    r = ctx.run("mypy .", pty=True, warn=True)
     if r.ok:
         print("=== OK ===")
     else:
@@ -62,18 +82,20 @@ def lint(ctx):
 
 
 SOLUTION_TEMPLATE = """
+from typing import Any
+
 from common import read_input_txt
 
 
-def part1(input_txt: str) -> None:
-    pass
+def part1(input_txt: str) -> Any:
+    return None
 
 
-def part2(input_txt: str) -> None:
-    pass
+def part2(input_txt: str) -> Any:
+    return None
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)
@@ -87,14 +109,14 @@ def main():
 SOLUTION_TEST_TEMPLATE = """
 from .solution import part1, part2
 
+input_txt = ""
 
-def test_part1():
-    input_txt = ""
+
+def test_part1() -> None:
     assert part1(input_txt) is None
 
 
 def test_part2() -> None:
-    input_txt = ""
     assert part2(input_txt) is None
 """.strip()
 

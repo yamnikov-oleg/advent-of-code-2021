@@ -7,3 +7,7 @@ line_length = 120
 
 [tool.pytest.ini_options]
 addopts = "--showlocals"
+
+[tool.mypy]
+strict = true
+mypy_path = "./stubs"

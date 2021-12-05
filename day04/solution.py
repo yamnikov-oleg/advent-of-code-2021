@@ -32,7 +32,7 @@ class Board:
     rows: list[list[BoardCell]] = field(init=False)
     winning_draw: Optional[int] = None
 
-    def __post_init__(self, size):
+    def __post_init__(self, size: int) -> None:
         self.rows = []
         for _ in range(size):
             row = []
@@ -40,11 +40,11 @@ class Board:
                 row.append(BoardCell(0))
             self.rows.append(row)
 
-    def __setitem__(self, cell_indices: tuple[int, int], number: int):
+    def __setitem__(self, cell_indices: tuple[int, int], number: int) -> None:
         row_ix, column_ix = cell_indices
         self.rows[row_ix][column_ix].number = number
 
-    def mark(self, number: int):
+    def mark(self, number: int) -> None:
         was_winning = self.is_winning
 
         for row in self.rows:
@@ -57,7 +57,8 @@ class Board:
 
     @property
     def columns(self) -> Iterator[list[BoardCell]]:
-        return zip(*self.rows)
+        for column in zip(*self.rows):
+            yield list(column)
 
     @property
     def is_winning(self) -> bool:
@@ -73,8 +74,8 @@ class Board:
 
     @property
     def score(self) -> int:
-        if not self.is_winning:
-            raise RuntimeError("Non-winning board has no score")
+        if not self.winning_draw:
+            raise RuntimeError("Can't calculate the score without the winning draw")
 
         unmarked_sum = 0
         for row in self.rows:
@@ -167,13 +168,13 @@ def part1(input_txt: str) -> int:
     return won_boards[0].score
 
 
-def part2(input_txt: str) -> None:
+def part2(input_txt: str) -> int:
     number_queue, boards = parse_input(input_txt)
     won_boards = play_bingo(number_queue, boards)
     return won_boards[-1].score
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)

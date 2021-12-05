@@ -14,7 +14,7 @@ input_txt = (
 )
 
 
-def test_part1():
+def test_part1() -> None:
     assert part1(input_txt) == 5
 
 

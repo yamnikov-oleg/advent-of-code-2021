@@ -23,7 +23,7 @@ class Position:
     depth: int
 
     @classmethod
-    def zero(cls):
+    def zero(cls) -> "Position":
         return cls(x=0, depth=0)
 
 
@@ -43,7 +43,7 @@ def apply_command(position: Position, command: Command) -> Position:
         raise ValueError(command.dir)
 
 
-def part1(input_txt: str) -> Position:
+def part1(input_txt: str) -> int:
     lines = input_txt.splitlines()
     commands = [parse_command(line) for line in lines]
     position = Position(x=0, depth=0)
@@ -72,7 +72,7 @@ class Submarine:
             raise ValueError(command.dir)
 
 
-def part2(input_txt: str) -> Position:
+def part2(input_txt: str) -> int:
     lines = input_txt.splitlines()
     commands = [parse_command(line) for line in lines]
     submarine = Submarine()
@@ -81,7 +81,7 @@ def part2(input_txt: str) -> Position:
     return submarine.position.x * submarine.position.depth
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
 
     part1_answer = part1(input_txt)

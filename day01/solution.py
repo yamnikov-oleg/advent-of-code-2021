@@ -1,14 +1,38 @@
+from typing import Iterable, Literal, Sequence, TypeVar, overload
+
 from common import read_input_txt
 
+T = TypeVar("T")
 
-def window(lst, n):
+
+@overload
+def window(seq: Sequence[T], n: Literal[1]) -> Iterable[tuple[T]]:
+    ...
+
+
+@overload
+def window(seq: Sequence[T], n: Literal[2]) -> Iterable[tuple[T, T]]:
+    ...
+
+
+@overload
+def window(seq: Sequence[T], n: Literal[3]) -> Iterable[tuple[T, T, T]]:
+    ...
+
+
+@overload
+def window(seq: Sequence[T], n: int) -> Iterable[tuple[T, ...]]:
+    ...
+
+
+def window(seq: Sequence[T], n: int) -> Iterable[tuple[T, ...]]:
     if n < 1:
         raise ValueError(n)
     elif n == 1:
-        for el in lst:
+        for el in seq:
             yield (el,)
     else:
-        for el, rest in zip(lst, window(lst[1:], n - 1)):
+        for el, rest in zip(seq, window(seq[1:], n - 1)):
             yield (el, *rest)
 
 
@@ -31,7 +55,7 @@ def part2(depths: list[int]) -> int:
     return increases
 
 
-def main():
+def main() -> None:
     input_txt = read_input_txt(__file__)
     input_lines = input_txt.splitlines()
     depths = [int(line) for line in input_lines]
