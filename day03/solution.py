@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from typing import Protocol
 
 from common import read_input_txt
 
@@ -125,13 +125,12 @@ def part1(input_txt: str) -> int:
     return gamma * epsilon
 
 
-class RatingCriteria(ABC):
+class RatingCriteria(Protocol):
     """
-    Abstract class for O2GenRatingCriteria and CO2ScrubRatingCriteria.
+    Interface for O2GenRatingCriteria and CO2ScrubRatingCriteria.
     """
 
     @classmethod
-    @abstractmethod
     def prepare(cls, bit_strings: list[BitString], bit_ix: int) -> "RatingCriteria":
         """
         Given bit_strings and bit_ix produces the criteria object.
@@ -140,7 +139,6 @@ class RatingCriteria(ABC):
         """
         ...
 
-    @abstractmethod
     def match(self, bit_string: BitString) -> bool:
         """
         :returns: True to keep the string, False to discard
@@ -148,7 +146,6 @@ class RatingCriteria(ABC):
         ...
 
 
-@RatingCriteria.register
 class O2GenRatingCriteria:
     """
     O2 generator rating criteria.
@@ -172,7 +169,6 @@ class O2GenRatingCriteria:
         return bit_string[self.bit_ix] == self.keep_bit
 
 
-@RatingCriteria.register
 class CO2ScrubRatingCriteria:
     """
     CO2 scrubber rating criteria.
