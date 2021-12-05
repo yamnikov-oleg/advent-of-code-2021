@@ -1,6 +1,7 @@
 import dataclasses
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Type, TypeVar
 
 from common import read_input_txt
 
@@ -17,13 +18,16 @@ class Command:
     amount: int
 
 
+PositionBase = TypeVar("PositionBase", bound="Position")
+
+
 @dataclass(frozen=True)
 class Position:
     x: int
     depth: int
 
     @classmethod
-    def zero(cls) -> "Position":
+    def zero(cls: Type[PositionBase]) -> PositionBase:
         return cls(x=0, depth=0)
 
 
