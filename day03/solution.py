@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List, Tuple, Type
 
 from common import read_input_txt
 
@@ -80,7 +79,7 @@ class BitString:
         return integer
 
 
-def get_bit_stats(bit_strings: List[BitString], bit_ix: int) -> Tuple[int, int]:
+def get_bit_stats(bit_strings: list[BitString], bit_ix: int) -> tuple[int, int]:
     """
     :returns: (number of ones, number of zeroes) at index bit_ix in bit_strings.
     """
@@ -95,7 +94,7 @@ def get_bit_stats(bit_strings: List[BitString], bit_ix: int) -> Tuple[int, int]:
     return count_ones, count_zeros
 
 
-def extract_rates(bit_strings: List[BitString]) -> Tuple[int, int]:
+def extract_rates(bit_strings: list[BitString]) -> tuple[int, int]:
     """
     :returns: (gamma rate, epsilon rate)
     """
@@ -133,7 +132,7 @@ class RatingCriteria(ABC):
 
     @classmethod
     @abstractmethod
-    def prepare(cls, bit_strings: List[BitString], bit_ix: int) -> "RatingCriteria":
+    def prepare(cls, bit_strings: list[BitString], bit_ix: int) -> "RatingCriteria":
         """
         Given bit_strings and bit_ix produces the criteria object.
         That is, counts ones and zeroes at bit_ix and returns the object that will
@@ -160,7 +159,7 @@ class O2GenRatingCriteria:
         self.keep_bit = keep_bit
 
     @classmethod
-    def prepare(cls, bit_strings: List[BitString], bit_ix: int) -> "O2GenRatingCriteria":
+    def prepare(cls, bit_strings: list[BitString], bit_ix: int) -> "O2GenRatingCriteria":
         count_ones, count_zeros = get_bit_stats(bit_strings, bit_ix)
         if count_ones > count_zeros:
             return cls(bit_ix=bit_ix, keep_bit=True)
@@ -184,7 +183,7 @@ class CO2ScrubRatingCriteria:
         self.keep_bit = keep_bit
 
     @classmethod
-    def prepare(cls, bit_strings: List[BitString], bit_ix: int) -> "CO2ScrubRatingCriteria":
+    def prepare(cls, bit_strings: list[BitString], bit_ix: int) -> "CO2ScrubRatingCriteria":
         count_ones, count_zeros = get_bit_stats(bit_strings, bit_ix)
         if count_ones > count_zeros:
             return cls(bit_ix=bit_ix, keep_bit=False)
@@ -197,7 +196,7 @@ class CO2ScrubRatingCriteria:
         return bit_string[self.bit_ix] == self.keep_bit
 
 
-def extract_rating(bit_strings: List[BitString], criteria_cls: Type[RatingCriteria]) -> int:
+def extract_rating(bit_strings: list[BitString], criteria_cls: type[RatingCriteria]) -> int:
     """
     :returns: The rating value given its criteria class.
     """

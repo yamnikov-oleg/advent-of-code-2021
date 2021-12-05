@@ -1,5 +1,5 @@
 from dataclasses import InitVar, dataclass, field
-from typing import Iterator, List, Optional, Tuple
+from typing import Iterator, Optional
 
 from common import read_input_txt
 
@@ -29,7 +29,7 @@ class Board:
     """
 
     size: InitVar[int]
-    rows: List[List[BoardCell]] = field(init=False)
+    rows: list[list[BoardCell]] = field(init=False)
     winning_draw: Optional[int] = None
 
     def __post_init__(self, size):
@@ -40,7 +40,7 @@ class Board:
                 row.append(BoardCell(0))
             self.rows.append(row)
 
-    def __setitem__(self, cell_indices: Tuple[int, int], number: int):
+    def __setitem__(self, cell_indices: tuple[int, int], number: int):
         row_ix, column_ix = cell_indices
         self.rows[row_ix][column_ix].number = number
 
@@ -56,7 +56,7 @@ class Board:
             self.winning_draw = number
 
     @property
-    def columns(self) -> Iterator[List[BoardCell]]:
+    def columns(self) -> Iterator[list[BoardCell]]:
         return zip(*self.rows)
 
     @property
@@ -85,7 +85,7 @@ class Board:
         return unmarked_sum * self.winning_draw
 
 
-def parse_number_grid(grid_txt: str) -> List[List[int]]:
+def parse_number_grid(grid_txt: str) -> list[list[int]]:
     """
     Example::
         parse_number_grid("1 2\n3 4\n")  # => [[1, 2], [3, 4]]
@@ -117,7 +117,7 @@ def parse_board(board_txt: str) -> Board:
     return board
 
 
-def play_bingo(number_queue: List[int], boards: List[Board]) -> List[Board]:
+def play_bingo(number_queue: list[int], boards: list[Board]) -> list[Board]:
     """
     Plays bingo given the queue of drawn numbers and playing board.
     Winning boards are excluded from the game.
@@ -146,7 +146,7 @@ def play_bingo(number_queue: List[int], boards: List[Board]) -> List[Board]:
     return won_boards
 
 
-def parse_input(input_txt: str) -> Tuple[List[int], List[Board]]:
+def parse_input(input_txt: str) -> tuple[list[int], list[Board]]:
     """
     :returns: The number drawing queue and the boards.
     """

@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Iterator, List
+from typing import Iterator
 
 from common import read_input_txt
 
@@ -74,7 +74,7 @@ def parse_vent_line(line: str) -> VentLine:
     )
 
 
-def count_multiline_points(vent_lines: List[VentLine]) -> int:
+def count_multiline_points(vent_lines: list[VentLine]) -> int:
     covered_points = defaultdict(int)
     for vent_line in vent_lines:
         for point in vent_line.points:

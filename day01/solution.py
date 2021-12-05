@@ -1,5 +1,3 @@
-from typing import List
-
 from common import read_input_txt
 
 
@@ -14,7 +12,7 @@ def window(lst, n):
             yield (el, *rest)
 
 
-def part1(depths: List[int]) -> int:
+def part1(depths: list[int]) -> int:
     increases = 0
     for prev, curr in window(depths, 2):
         if curr > prev:
@@ -22,7 +20,7 @@ def part1(depths: List[int]) -> int:
     return increases
 
 
-def part2(depths: List[int]) -> int:
+def part2(depths: list[int]) -> int:
     increases = 0
     prev_window_sum = None
     for el1, el2, el3 in window(depths, 3):
